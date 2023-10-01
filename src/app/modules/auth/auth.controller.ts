@@ -6,6 +6,7 @@ import { IAuthLoginResponse } from './auth.interface';
 import httpStatus from 'http-status';
 import config from '../../../config';
 
+// Login User by Email and password
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const { ...loginData } = req.body;
   const result = await AuthService.loginUser(loginData);
@@ -27,6 +28,23 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// Get accessToken by using Refresh Token
+
+const getAccessTokenByRefreshToken = catchAsync(
+  async (req: Request, res: Response) => {
+    const { refreshToken } = req.cookies;
+
+    const result = await AuthService.getAccessTokenByRefreshToken(refreshToken);
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: 'User successfull login by refresh Token',
+      data: result,
+    });
+  },
+);
+
 export const AuthController = {
   loginUser,
+  getAccessTokenByRefreshToken,
 };
