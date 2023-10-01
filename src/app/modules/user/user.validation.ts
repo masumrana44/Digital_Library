@@ -8,6 +8,7 @@ const createUserZodSchema = z.object({
       }),
       lastName: z.string().optional(),
     }),
+    role: z.enum(['admin'] as [string, ...string[]]).optional(),
     email: z
       .string({
         required_error: 'email is required',

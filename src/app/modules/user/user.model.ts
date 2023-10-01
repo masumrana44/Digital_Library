@@ -16,6 +16,9 @@ const UserSchema = new Schema<IUser, UserModel>({
     },
     required: true,
   },
+  role: {
+    type: String,
+  },
   email: {
     type: String,
     required: true,
@@ -39,6 +42,15 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 
+// set role when user does not give role in body
+UserSchema.pre('save', async function (next) {
+  const user = this as IUser;
+  if (!user.role) {
+    this.role = 'normalUser';
+  }
+  next();
+});
+
 // compre password by bcrypt
 UserSchema.statics.isPasswordMatch = async function (
   inputPassword: string,
@@ -48,12 +60,8 @@ UserSchema.statics.isPasswordMatch = async function (
 };
 
 // checking is User exist
-UserSchema.statics.isUserExist = async function (email, phoneNumber) {
-  if (email) {
-    return await User.findOne({ email: email });
-  } else if (phoneNumber) {
-    return await User.findOne({ phoneNumber: phoneNumber });
-  }
+UserSchema.statics.isUserExist = async function (email) {
+  return await User.findOne({ email: email });
 };
 
 export const User = model<IUser, UserModel>('User', UserSchema);
