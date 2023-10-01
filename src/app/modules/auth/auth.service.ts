@@ -10,9 +10,11 @@ import { Secret } from 'jsonwebtoken';
 const loginUser = async (payload: ILoginUser): Promise<IAuthLoginResponse> => {
   const { email, password } = payload;
   const isUserExist = await User.isUserExist(email);
+  //   checking user
   if (!isUserExist) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User does not exist');
   }
+  //   checking password
   if (
     isUserExist.password &&
     !(await User.isPasswordMatch(password, isUserExist.password as string))

@@ -3,37 +3,45 @@ import { IUser, UserModel } from './user.interface';
 import bcrypt from 'bcrypt';
 import config from '../../../config';
 
-const UserSchema = new Schema<IUser, UserModel>({
-  name: {
-    type: {
-      firstName: {
-        type: String,
-        required: true,
+const UserSchema = new Schema<IUser, UserModel>(
+  {
+    name: {
+      type: {
+        firstName: {
+          type: String,
+          required: true,
+        },
+        lastName: {
+          type: String,
+        },
       },
-      lastName: {
-        type: String,
-      },
+      required: true,
     },
-    required: true,
+    role: {
+      type: String,
+    },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    phoneNumber: {
+      type: Number,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  role: {
-    type: String,
+  {
+    timestamps: true,
+    toJSON: {
+      virtuals: true,
+    },
   },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  phoneNumber: {
-    type: Number,
-    required: true,
-    unique: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+);
 
 // hasing plaintext before save password
 UserSchema.pre('save', async function (next) {
