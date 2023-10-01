@@ -7,4 +7,5 @@ export default {
   env: process.env.NODE_ENV,
   port: process.env.PORT,
   database_uri: process.env.DATABASE_URI,
+  saltRound: process.env.SALTROUNDS,
 };

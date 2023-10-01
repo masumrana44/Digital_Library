@@ -1,6 +1,6 @@
 import { Response } from 'express';
 
-type IApiResponse<T> = {
+type IApiResponse<G> = {
   statusCode: number;
   success: boolean;
   message?: string | null;
@@ -9,11 +9,11 @@ type IApiResponse<T> = {
     limit: number;
     total: number;
   };
-  data: T | null | undefined;
+  data: G | null | undefined;
 };
 
-const sendResponse = <T>(res: Response, data: IApiResponse<T>): void => {
-  const responseData: IApiResponse<T> = {
+const sendResponse = <G>(res: Response, data: IApiResponse<G>): void => {
+  const responseData: IApiResponse<G> = {
     statusCode: data.statusCode,
     success: data.success,
     message: data.message || null,
