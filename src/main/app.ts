@@ -18,7 +18,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // use app all route
 app.use('/api/v1', routes);
-
+app.use('/', (req, res) => {
+  res.send('The Sever is running');
+});
 // use Error handler
 app.use(globalErrorHandler);
 app.use(handleNotFoundApi);
