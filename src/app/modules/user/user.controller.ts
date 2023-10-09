@@ -17,14 +17,16 @@ const createUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// get single  user
 const getSingleUser = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
-  const user = UserService.getSingleUser(id);
+  const user = await UserService.getSingleUser(id);
+
   sendResponse<IUser>(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'User fatched successfull',
-    user: user,
+    data: user,
   });
 });
 
