@@ -5,10 +5,14 @@ import { UserZodValidation } from './user.validation';
 
 const router = express.Router();
 
+// Create User
 router.post(
   '/create-user',
   ValidateRequest(UserZodValidation.createUserZodSchema),
   UserController.createUser,
 );
+
+// get single user
+router.get('/:id', UserController.getSingleUser);
 
 export const userRoutes = router;
