@@ -5,6 +5,7 @@ import { UserService } from './user.service';
 import httpStatus from 'http-status';
 import { IUser } from './user.interface';
 
+// create user
 const createUser = catchAsync(async (req: Request, res: Response) => {
   const { ...user } = req.body;
   const createdUser = await UserService.createUser(user);
