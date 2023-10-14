@@ -7,6 +7,8 @@ import httpStatus from 'http-status';
 import pick from '../../../shared/pick';
 import { paginationFields } from '../../../constant/pagination';
 import { bookFilterableFiled } from './book.constant';
+import { jwtHelper } from '../../../helper/jwtHelper';
+import config from '../../../config';
 
 // create book
 const createBook = catchAsync(async (req: Request, res: Response) => {
@@ -20,9 +22,23 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// posting Comment
+const postReview = catchAsync(async (req: Request, res: Response) => {
+  const review = req.body;
+  const bookId = req.params.id;
+  const result = await BookService.postReview(review, bookId);
+  sendResponse<IBook>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Your review is added',
+    data: result,
+  });
+});
+
 // update book
 const updateBook = catchAsync(async (req: Request, res: Response) => {
   const { ...updatedData } = req.body;
+  console.log(updatedData);
   const id = req.params.id;
   const result = await BookService.updateBook(updatedData, id);
   sendResponse<IBook>(res, {
@@ -63,6 +79,28 @@ const getSingleBook = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// get Speciifc Users booǩ
+const getSpecificUserBooks = catchAsync(async (req: Request, res: Response) => {
+  const AccessToken = req.headers.authorization;
+  const verifiedToken = jwtHelper.verifyToken(
+    AccessToken as string,
+    config.access_token_secret as string,
+  );
+  const { phoneNumber } = verifiedToken;
+  const paginationOptions = pick(req.query, paginationFields);
+
+  const result = await BookService.getSpecificUserBooks(
+    phoneNumber,
+    paginationOptions,
+  );
+  sendResponse<IBook>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book are fetched successful',
+    data: result,
+  });
+});
+
 // delete book
 const deleteBook = catchAsync(async (req: Request, res: Response) => {
   const id = req.params.id;
@@ -81,4 +119,6 @@ export const BookController = {
   deleteBook,
   getAllBook,
   getSingleBook,
+  postReview,
+  getSpecificUserBooks,
 };

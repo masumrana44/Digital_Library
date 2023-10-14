@@ -12,13 +12,17 @@ router.post(
   BookController.createBook,
 );
 
+// post comment
+router.post('/review/:id', BookController.postReview);
 // get all book
 router.get('/', BookController.getAllBook);
 
+// get  Specific all book
+router.get('/mybooks', BookController.getSpecificUserBooks);
 // get single book
 router.get('/:id', BookController.getSingleBook);
 // update book
-router.put('/:id', BookController.updateBook);
+router.patch('/:id', BookController.updateBook);
 // delete book
 router.delete('/:id', BookController.deleteBook);
 

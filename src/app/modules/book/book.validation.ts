@@ -8,7 +8,7 @@ const createBookValidation = z.object({
     author: z.string({
       required_error: 'author is required',
     }),
-    price: z.number({
+    price: z.string({
       required_error: 'price is required',
     }),
     bookPhotoUrl: z.string({
