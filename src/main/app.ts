@@ -1,14 +1,26 @@
-import express from "express";
-import cors from "cors";
+import express, { Application } from 'express';
+import cors from 'cors';
+import globalErrorHandler from '../app/middleware/GlobalErrorHandler';
+import routes from '../app/routes';
+import handleNotFoundApi from '../app/middleware/HandleNotFoundApi';
+import cookieParser from 'cookie-parser';
+const app: Application = express();
 
-const app = express();
-app.use(cors);
+// use cors
+app.use(cors());
 
-// parse
+// pars access cookie
+app.use(cookieParser());
+// parse json data
 app.use(express.json());
+// encoded body data
 app.use(express.urlencoded({ extended: true }));
 
+// use app all route
+app.use('/api/v1', routes);
 
-
+// use Error handler
+app.use(globalErrorHandler);
+app.use(handleNotFoundApi);
 
 export default app;

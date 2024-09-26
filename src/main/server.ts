@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
-import config from "../config";
-import app from "./app";
+import mongoose from 'mongoose';
+import config from '../config';
+import app from './app';
 
 const run = () => {
   try {
     mongoose.connect(config.database_uri as string);
-    console.log("Database connected");
+    console.log('Database connected');
     app.listen(config.port, () => {
       console.log(`Server running on port ${config.port}`);
     });
